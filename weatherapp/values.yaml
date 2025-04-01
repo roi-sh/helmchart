@@ -1,0 +1,9 @@
+replicaCount: 2
+image:
+  repository: roish1/weatherapp
+  tag: latest
+service:
+  type: NodePort
+  port: 5000
+  targetPort: 5000
+  nodePort: 30080
