@@ -11,31 +11,34 @@ on:
 jobs:
   update-color:
     runs-on: ubuntu-latest
+    # This permissions block is CRUCIAL
+    permissions:
+      contents: write  # Gives GITHUB_TOKEN permission to push
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          # This ensures subsequent git commands will authenticate properly
+          persist-credentials: true
 
       - name: Update color in values.yaml
         run: |
-          # Define file path
           VALUES_FILE="weatherapp/values.yaml"
           
-          # Check if file exists
           if [ ! -f "$VALUES_FILE" ]; then
             echo "Error: values.yaml file not found at $VALUES_FILE"
             exit 1
           fi
           
-          # Update the color value using yq (YAML processor)
           echo "Installing yq..."
           sudo apt-get install -y yq
           
           echo "Updating color value..."
-          yq eval '.configmap.data.BG_COLOR = "'"${{ github.event.inputs.newColor }}"'"' $VALUES_FILE > temp.yaml && mv temp.yaml $VALUES_FILE
+          yq eval '.configmap.data.BG_COLOR = "'"${{ github.event.inputs.newColor }}"'"' "$VALUES_FILE" > temp.yaml && mv temp.yaml "$VALUES_FILE"
           
-          # Display the change
           echo "Updated values.yaml:"
-          cat $VALUES_FILE | grep -A2 "configmap:"
+          cat "$VALUES_FILE" | grep -A2 "configmap:"
 
       - name: Commit and push changes
         run: |
@@ -43,4 +46,4 @@ jobs:
           git config --global user.email "actions@github.com"
           git add .
           git commit -m "Update chart color to ${{ github.event.inputs.newColor }}"
-          git push "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          git push
