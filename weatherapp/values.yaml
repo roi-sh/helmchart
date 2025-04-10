@@ -23,6 +23,11 @@ chimensjr:
     targetPort: 80
     # nodePort: 32400
 
+configmap:
+  name: weatherapp-configmap
+  data:
+    BG_COLOR: "#3295a8"
+
 efs:
   name: efs-sc
   provisioner: efs.csi.aws.com

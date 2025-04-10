@@ -1,16 +1,16 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: chimensjr-ingress
-  annotations:
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
-    alb.ingress.kubernetes.io/healthcheck-path: /
-spec:
-  ingressClassName: alb
-  defaultBackend:
-    service:
-      name: chimensjr-service
-      port:
-        number: 80
+#apiVersion: networking.k8s.io/v1
+#kind: Ingress
+#metadata:
+#  name: chimensjr-ingress
+#  annotations:
+#    alb.ingress.kubernetes.io/scheme: internet-facing
+#    alb.ingress.kubernetes.io/target-type: ip
+#    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+#    alb.ingress.kubernetes.io/healthcheck-path: /
+#spec:
+#  ingressClassName: alb
+#  defaultBackend:
+#    service:
+#      name: chimensjr-service
+#      port:
+#        number: 80

@@ -1,6 +1,6 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: weatherapp-configmap
+  name: {{ .Values.configmap.name }}
 data:
-  BG_COLOR: "#3295a8"
+  BG_COLOR: {{ .Values.configmap.data.BG_COLOR}}
