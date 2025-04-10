@@ -1,9 +1,32 @@
-replicaCount: 2
-image:
-  repository: roish1/weatherapp
-  tag: latest
-service:
-  type: NodePort
-  port: 5000
-  targetPort: 5000
-  nodePort: 30080
+weatherapp:
+  replicaCount: 1
+  image:
+    repository: roish1/weatherapp
+    tag: latest
+  service:
+    type: ClusterIP
+    # type: NodePort
+    port: 5000
+    targetPort: 5000
+    # nodePort: 32300
+
+chimensjr:
+  name: chimensjr
+  replicaCount: 1
+  image:
+    repository: chimenesjr/solitaire
+    tag: nginx
+  service:
+    type: ClusterIP
+    # type: NodePort
+    port: 80
+    targetPort: 80
+    # nodePort: 32400
+
+efs:
+  name: efs-sc
+  provisioner: efs.csi.aws.com
+  parameters:
+    provisioningMode: efs-ap
+    fileSystemId: fs-03e2fee1d51ade53d
+    directoryPerms: "700"

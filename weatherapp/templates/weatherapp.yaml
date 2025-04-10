@@ -5,20 +5,42 @@ metadata:
     app: {{ .Chart.Name }}
   name: {{ .Chart.Name }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.weatherapp.replicaCount }}
   selector:
     matchLabels:
       app: {{ .Chart.Name }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
   template:
     metadata:
       labels:
         app: {{ .Chart.Name }}
     spec:
       containers:
-      - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+      - image: "{{ .Values.weatherapp.image.repository }}:{{ .Values.weatherapp.image.tag }}"
         name: {{ .Chart.Name }}
         ports:
-        - containerPort: {{ .Values.service.port }}
+        - containerPort: {{ .Values.weatherapp.service.port }}
+        envFrom:
+          - configMapRef:
+              name: weatherapp-configmap
+        volumeMounts:
+          - mountPath: "/weather/weather_history"
+            name: efs-volume
+      volumes:
+      - name: efs-volume
+        persistentVolumeClaim:
+          claimName: efs-claim
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            app: {{ .Chart.Name }}
 ---
 apiVersion: v1
 kind: Service
@@ -31,7 +53,7 @@ spec:
     app: {{ .Chart.Name }}
   ports:
     - protocol: TCP
-      port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.targetPort }}
-      nodePort: {{ .Values.service.nodePort }}
-  type: {{ .Values.service.type }}
+      port: {{ .Values.weatherapp.service.port }}
+      targetPort: {{ .Values.weatherapp.service.targetPort }}
+      # nodePort: {{ .Values.weatherapp.service.nodePort }}
+  type: {{ .Values.weatherapp.service.type }}

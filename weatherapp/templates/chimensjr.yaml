@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.chimensjr.name }}
+  name: {{ .Values.chimensjr.name }}
+spec:
+  replicas: {{ .Values.chimensjr.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.chimensjr.name }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.chimensjr.name }}
+    spec:
+      containers:
+      - image: "{{ .Values.chimensjr.image.repository }}:{{ .Values.chimensjr.image.tag }}"
+        name: {{ .Values.chimensjr.name }}
+        ports:
+        - containerPort: {{ .Values.chimensjr.service.port }}
+        envFrom:
+          - configMapRef:
+              name: chimensjr-configmap
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            app: {{ .Values.chimensjr.name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.chimensjr.name }}-service
+  labels:
+    app: {{ .Values.chimensjr.name }}
+spec:
+  selector:
+    app: {{ .Values.chimensjr.name }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.chimensjr.service.port }}
+      targetPort: {{ .Values.chimensjr.service.targetPort }}
+      # nodePort: {{ .Values.chimensjr.service.nodePort }}
+  type: {{ .Values.chimensjr.service.type }}

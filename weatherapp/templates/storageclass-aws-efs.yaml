@@ -1,0 +1,9 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: {{ .Values.efs.name }}
+provisioner: {{ .Values.efs.provisioner }}
+parameters:
+  provisioningMode: {{ .Values.efs.parameters.provisioningMode }}
+  fileSystemId: {{ .Values.efs.parameters.fileSystemId }}
+  directoryPerms: {{ .Values.efs.parameters.directoryPerms | quote }}
