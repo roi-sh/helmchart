@@ -1,5 +1,5 @@
 weatherapp:
-  replicaCount: 1
+  replicaCount: 2
   image:
     repository: roish1/weatherapp
     tag: latest
@@ -12,7 +12,7 @@ weatherapp:
 
 chimensjr:
   name: chimensjr
-  replicaCount: 1
+  replicaCount: 2
   image:
     repository: chimenesjr/solitaire
     tag: nginx
