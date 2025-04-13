@@ -41,19 +41,3 @@ spec:
         labelSelector:
           matchLabels:
             app: {{ .Chart.Name }}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Chart.Name }}-service
-  labels:
-    app: {{ .Chart.Name }}
-spec:
-  selector:
-    app: {{ .Chart.Name }}
-  ports:
-    - protocol: TCP
-      port: {{ .Values.weatherapp.service.port }}
-      targetPort: {{ .Values.weatherapp.service.targetPort }}
-      # nodePort: {{ .Values.weatherapp.service.nodePort }}
-  type: {{ .Values.weatherapp.service.type }}
