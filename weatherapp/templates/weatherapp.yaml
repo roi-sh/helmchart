@@ -8,7 +8,7 @@ spec:
   replicas: {{ .Values.weatherapp.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Chart.Name }}
+      app: {{ .Values.weatherapp.Name }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -17,11 +17,11 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}
+        app: {{ .Values.weatherapp.Name }}
     spec:
       containers:
       - image: "{{ .Values.weatherapp.image.repository }}:{{ .Values.weatherapp.image.tag }}"
-        name: {{ .Chart.Name }}
+        name: {{ .Values.weatherapp.Name }}
         ports:
         - containerPort: {{ .Values.weatherapp.service.port }}
         envFrom:
@@ -40,4 +40,4 @@ spec:
         whenUnsatisfiable: ScheduleAnyway
         labelSelector:
           matchLabels:
-            app: {{ .Chart.Name }}
+            app: {{ .Values.weatherapp.Name }}

@@ -1,4 +1,5 @@
 weatherapp:
+  name: weatherapp
   replicaCount: 2
   image:
     repository: roish1/weatherapp
