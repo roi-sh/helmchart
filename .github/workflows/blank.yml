@@ -1,17 +1,16 @@
-name: Update Chart Color
+name: Update Chart Version
 
 on:
   workflow_dispatch:
     inputs:
-      newColor:
-        description: 'New color value (e.g., "#RRGGBB")'
+      newVersion:
+        description: 'New chart version (e.g., "1.2.3")'
         required: true
-        default: '#3295a8'
+        default: '0.1.0'
 
 jobs:
-  update-color:
+  update-version:
     runs-on: ubuntu-latest
-    # This permissions block is CRUCIAL
     permissions:
       contents: write  # Gives GITHUB_TOKEN permission to push
 
@@ -19,31 +18,30 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # This ensures subsequent git commands will authenticate properly
           persist-credentials: true
 
-      - name: Update color in values.yaml
+      - name: Update version in Chart.yaml
         run: |
-          VALUES_FILE="weatherapp/values.yaml"
+          CHART_FILE="weatherapp/Chart.yaml"
           
-          if [ ! -f "$VALUES_FILE" ]; then
-            echo "Error: values.yaml file not found at $VALUES_FILE"
+          if [ ! -f "$CHART_FILE" ]; then
+            echo "Error: Chart.yaml file not found at $CHART_FILE"
             exit 1
           fi
           
           echo "Installing yq..."
           sudo apt-get install -y yq
           
-          echo "Updating color value..."
-          yq eval '.configmap.data.BG_COLOR = "'"${{ github.event.inputs.newColor }}"'"' "$VALUES_FILE" > temp.yaml && mv temp.yaml "$VALUES_FILE"
+          echo "Updating version..."
+          yq eval '.version = "'"${{ github.event.inputs.newVersion }}"'"' "$CHART_FILE" > temp.yaml && mv temp.yaml "$CHART_FILE"
           
-          echo "Updated values.yaml:"
-          cat "$VALUES_FILE" | grep -A2 "configmap:"
+          echo "Updated Chart.yaml:"
+          cat "$CHART_FILE" | grep "version:"
 
       - name: Commit and push changes
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add .
-          git commit -m "Update chart color to ${{ github.event.inputs.newColor }}"
+          git commit -m "Update chart version to ${{ github.event.inputs.newVersion }}"
           git push
