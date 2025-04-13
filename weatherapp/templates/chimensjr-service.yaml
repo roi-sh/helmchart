@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.chimensjr.name }}-service
+  labels:
+    app: {{ .Values.chimensjr.name }}
+spec:
+  selector:
+    app: {{ .Values.chimensjr.name }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.chimensjr.service.port }}
+      targetPort: {{ .Values.chimensjr.service.targetPort }}
+      # nodePort: {{ .Values.chimensjr.service.nodePort }}
+  type: {{ .Values.chimensjr.service.type }}
