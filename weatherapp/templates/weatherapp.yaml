@@ -2,14 +2,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: {{ .Chart.Name }}
-  name: {{ .Chart.Name }}
+    app: {{ .Values.weatherapp.name }}
+  name: {{ .Values.weatherapp.name }}
   namespace: {{ .Values.weatherapp.namespace }}
 spec:
   replicas: {{ .Values.weatherapp.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Values.weatherapp.Name }}
+      app: {{ .Values.weatherapp.name }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -18,11 +18,11 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Values.weatherapp.Name }}
+        app: {{ .Values.weatherapp.name }}
     spec:
       containers:
       - image: "{{ .Values.weatherapp.image.repository }}:{{ .Values.weatherapp.image.tag }}"
-        name: {{ .Values.weatherapp.Name }}
+        name: {{ .Values.weatherapp.name }}
         ports:
         - containerPort: {{ .Values.weatherapp.service.port }}
         envFrom:
@@ -41,4 +41,4 @@ spec:
         whenUnsatisfiable: ScheduleAnyway
         labelSelector:
           matchLabels:
-            app: {{ .Values.weatherapp.Name }}
+            app: {{ .Values.weatherapp.name }}
