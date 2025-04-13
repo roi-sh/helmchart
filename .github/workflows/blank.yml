@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       newVersion:
-        description: 'New chart version (e.g., "1.2.3")'
+        description: 'New chart version'
         required: true
         default: '0.1.0'
 
