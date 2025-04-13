@@ -12,36 +12,38 @@ jobs:
   update-version:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Gives GITHUB_TOKEN permission to push
+      contents: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          persist-credentials: true
+          fetch-depth: 0
 
       - name: Update version in Chart.yaml
         run: |
           CHART_FILE="weatherapp/Chart.yaml"
-          
           if [ ! -f "$CHART_FILE" ]; then
-            echo "Error: Chart.yaml file not found at $CHART_FILE"
+            echo "Error: Chart.yaml not found at $CHART_FILE"
             exit 1
           fi
-          
-          echo "Installing yq..."
-          sudo apt-get install -y yq
-          
-          echo "Updating version..."
-          yq eval '.version = "'"${{ github.event.inputs.newVersion }}"'"' "$CHART_FILE" > temp.yaml && mv temp.yaml "$CHART_FILE"
-          
-          echo "Updated Chart.yaml:"
-          cat "$CHART_FILE" | grep "version:"
+
+          # Update version using sed (no yq dependency needed)
+          sed -i "s/^version: .*/version: ${{ github.event.inputs.newVersion }}/" "$CHART_FILE"
+
+          # Verify the change was made
+          echo "Updated version to:"
+          grep "version:" "$CHART_FILE"
 
       - name: Commit and push changes
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git add .
-          git commit -m "Update chart version to ${{ github.event.inputs.newVersion }}"
-          git push
+          # Only commit if there are changes
+          if git diff --quiet; then
+            echo "No changes detected"
+          else
+            git config --global user.name "GitHub Actions"
+            git config --global user.email "actions@github.com"
+            git add weatherapp/Chart.yaml
+            git commit -m "Update chart version to ${{ github.event.inputs.newVersion }}"
+            git push
+          fi
