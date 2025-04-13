@@ -4,6 +4,7 @@ metadata:
   labels:
     app: {{ .Chart.Name }}
   name: {{ .Chart.Name }}
+  namespace: {{ .Values.weatherapp.namespace }}
 spec:
   replicas: {{ .Values.weatherapp.replicaCount }}
   selector:

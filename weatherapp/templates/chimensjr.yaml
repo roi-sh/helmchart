@@ -4,6 +4,7 @@ metadata:
   labels:
     app: {{ .Values.chimensjr.name }}
   name: {{ .Values.chimensjr.name }}
+  namespace: {{ .Values.chimensjr.namespace }}
 spec:
   replicas: {{ .Values.chimensjr.replicaCount }}
   selector:

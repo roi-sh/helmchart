@@ -1,5 +1,6 @@
 weatherapp:
   name: weatherapp
+  namespace: default
   replicaCount: 2
   image:
     repository: roish1/weatherapp
@@ -13,6 +14,7 @@ weatherapp:
 
 chimensjr:
   name: chimensjr
+  namespace: default
   replicaCount: 2
   image:
     repository: chimenesjr/solitaire
