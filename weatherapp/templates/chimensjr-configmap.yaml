@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: chimensjr-configmap
+  name: {{ .Values.chimensjr.name }}-configmap
   namespace: {{ .Values.chimensjr.namespace }}
 data:
-  BG_COLOR: "#32a83a"
+  BG_COLOR: {{ .Values.configmap.chimensjr.data.BG_COLOR | quote }}

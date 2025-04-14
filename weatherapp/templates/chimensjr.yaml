@@ -11,10 +11,10 @@ spec:
     matchLabels:
       app: {{ .Values.chimensjr.name }}
   strategy:
-    type: RollingUpdate
+    type: {{ .Values.chimensjr.strategy.type }}
     rollingUpdate:
-      maxSurge: 50%
-      maxUnavailable: 50%
+      maxSurge: {{ .Values.chimensjr.strategy.rollingUpdate.maxSurge | quote }}
+      maxUnavailable: {{ .Values.chimensjr.strategy.rollingUpdate.maxUnavailable | quote }}
   template:
     metadata:
       labels:
@@ -29,9 +29,9 @@ spec:
           - configMapRef:
               name: chimensjr-configmap
       topologySpreadConstraints:
-      - maxSkew: 1
-        topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: ScheduleAnyway
+      - maxSkew: {{ .Values.chimensjr.topologySpreadConstraints.maxSkew }}
+        topologyKey: {{ .Values.chimensjr.topologySpreadConstraints.topologyKey }}
+        whenUnsatisfiable: {{ .Values.chimensjr.topologySpreadConstraints.whenUnsatisfiable }}
         labelSelector:
           matchLabels:
             app: {{ .Values.chimensjr.name }}

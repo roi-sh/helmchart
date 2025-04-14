@@ -4,4 +4,4 @@ metadata:
   namespace: {{ .Values.weatherapp.namespace }}
   name: {{ .Values.configmap.name }}
 data:
-  BG_COLOR: {{ .Values.configmap.data.BG_COLOR }}
+  BG_COLOR: {{ .Values.configmap.data.BG_COLOR | quote }}

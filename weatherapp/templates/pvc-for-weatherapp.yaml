@@ -2,11 +2,11 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   namespace: {{ .Values.weatherapp.namespace }}
-  name: efs-claim
+  name: {{ .Values.weatherapp.pvc.name }}
 spec:
   accessModes:
-    - ReadWriteMany
-  storageClassName: efs-sc
+    - {{ .Values.weatherapp.pvc.accessModes }}
+  storageClassName: {{ .Values.efs.name }}
   resources:
     requests:
-      storage: 1Gi
+      storage: {{ .Values.weatherapp.pvc.resources.requests.storage }}

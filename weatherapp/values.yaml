@@ -1,3 +1,26 @@
+chimensjr:
+  name: chimensjr
+  namespace: default
+  replicaCount: 2
+  image:
+    repository: chimenesjr/solitaire
+    tag: nginx
+  service:
+    type: ClusterIP
+    # type: NodePort
+    port: 80
+    targetPort: 80
+    # nodePort: 32400
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  topologySpreadConstraints:
+    maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: ScheduleAnyway
+
 weatherapp:
   name: weatherapp
   namespace: default
@@ -12,24 +35,51 @@ weatherapp:
     targetPort: 5000
     # nodePort: 32300
 
-chimensjr:
-  name: chimensjr
-  namespace: default
-  replicaCount: 2
-  image:
-    repository: chimenesjr/solitaire
-    tag: nginx
-  service:
-    type: ClusterIP
-    # type: NodePort
-    port: 80
-    targetPort: 80
-    # nodePort: 32400
-
+  pvc:
+    name: efs-claim
+    accessModes: ReadWriteMany
+    resources:
+      requests:
+        storage: 1Gi
 configmap:
-  name: weatherapp-configmap
-  data:
-    BG_COLOR: "#3295a8"
+  weatherapp:
+    name: weatherapp-configmap
+    data:
+      BG_COLOR: "#3295a8"
+  chimensjr:
+    data:
+      BG_COLOR: "#32a83a"
+
+ingress:
+  weatherapp:
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 5000}]'
+      alb.ingress.kubernetes.io/group.name: my-shared-alb
+      alb.ingress.kubernetes.io/healthcheck-path: /
+      spec:
+        ingressClassName: alb
+        rules:
+          http:
+            paths:
+              path: /
+              pathType: Prefix
+
+  chimensjr:
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+      alb.ingress.kubernetes.io/group.name: my-shared-alb
+      alb.ingress.kubernetes.io/healthcheck-path: /
+      spec:
+        ingressClassName: alb
+        rules:
+          http:
+            paths:
+              path: /
+              pathType: Prefix
 
 efs:
   name: efs-sc

@@ -2,20 +2,20 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   namespace: {{ .Values.weatherapp.namespace }}
-  name: weatherapp-ingress
+  name: {{ .Values.weatherapp.name }}-ingress
   annotations:
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 5000}]'
-    alb.ingress.kubernetes.io/group.name: my-shared-alb
-    alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/scheme: {{ .Values.ingress.weatherapp.annotations.alb.ingress.kubernetes.io/scheme }}
+    alb.ingress.kubernetes.io/target-type: {{ .Values.ingress.weatherapp.annotations.alb.ingress.kubernetes.io/target-type }}
+    alb.ingress.kubernetes.io/listen-ports: {{ .Values.ingress.weatherapp.annotations.alb.ingress.kubernetes.io/listen-ports | quote }}
+    alb.ingress.kubernetes.io/group.name: {{ .Values.ingress.weatherapp.annotations.alb.ingress.kubernetes.io/group.name }}
+    alb.ingress.kubernetes.io/healthcheck-path: {{ .Values.ingress.weatherapp.annotations.alb.ingress.kubernetes.io/healthcheck-path }}
 spec:
-  ingressClassName: alb
+  ingressClassName: {{ .Values.ingress.weatherapp.spec.ingressClassName  }}
   rules:
     - http:
         paths:
-          - path: /
-            pathType: Prefix
+          - path: {{ .Values.ingress.weatherapp.spec.rules.http.paths.path  }}
+            pathType: {{ .Values.ingress.weatherapp.spec.rules.http.paths.pathType  }}
             backend:
               service:
                 name: weatherapp-service
