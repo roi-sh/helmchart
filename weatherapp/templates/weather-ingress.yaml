@@ -4,7 +4,7 @@ metadata:
   namespace: {{ .Values.weatherapp.namespace }}
   name: {{ .Values.weatherapp.name }}-ingress
   annotations:
-    alb.ingress.kubernetes.io/scheme: {{ .Values.ingress.weatherapp.annotations.alb.ingress.kubernetes.io/scheme }}
+    alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: {{ .Values.ingress.weatherapp.annotations.alb.ingress.kubernetes.io/target-type }}
     alb.ingress.kubernetes.io/listen-ports: {{ .Values.ingress.weatherapp.annotations.alb.ingress.kubernetes.io/listen-ports | quote }}
     alb.ingress.kubernetes.io/group.name: {{ .Values.ingress.weatherapp.annotations.alb.ingress.kubernetes.io/group.name }}
