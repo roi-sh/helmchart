@@ -9,6 +9,6 @@ entries:
     name: weatherapp
     type: application
     urls:
-    - https://roi-sh.github.io/helmchart/weatherapp-1.0.56.tgz
+    - https://github.com/roi-sh/helmchart/weatherapp-1.0.56.tgz
     version: 1.0.56
 generated: "2025-04-24T14:17:16.974231931+03:00"
