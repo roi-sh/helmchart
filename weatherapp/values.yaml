@@ -41,6 +41,7 @@ weatherapp:
     resources:
       requests:
         storage: 1Gi
+
 configmap:
   weatherapp:
     name: weatherapp-configmap
@@ -51,6 +52,7 @@ configmap:
       BG_COLOR: "#32a83a"
 
 ingress:
+  enabled: true
   weatherapp:
     annotations:
       alb.ingress.kubernetes.io/scheme: internet-facing
@@ -58,13 +60,13 @@ ingress:
       alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 5000}]'
       alb.ingress.kubernetes.io/group.name: my-shared-alb
       alb.ingress.kubernetes.io/healthcheck-path: /
-      spec:
-        ingressClassName: alb
-        rules:
-          http:
-            paths:
-              path: /
-              pathType: Prefix
+    spec:
+      ingressClassName: alb
+      rules:
+        http:
+          paths:
+            path: /
+            pathType: Prefix
 
   chimensjr:
     annotations:
