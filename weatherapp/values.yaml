@@ -75,13 +75,13 @@ ingress:
       alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
       alb.ingress.kubernetes.io/group.name: my-shared-alb
       alb.ingress.kubernetes.io/healthcheck-path: /
-      spec:
-        ingressClassName: alb
-        rules:
-          http:
-            paths:
-              path: /
-              pathType: Prefix
+    spec:
+      ingressClassName: alb
+      rules:
+        http:
+          paths:
+            path: /
+            pathType: Prefix
 
 efs:
   name: efs-sc
