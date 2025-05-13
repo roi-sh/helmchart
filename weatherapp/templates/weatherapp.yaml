@@ -28,13 +28,17 @@ spec:
         envFrom:
           - configMapRef:
               name: weatherapp-configmap
+        {{- if .Values.efs.enabled }}
         volumeMounts:
           - mountPath: "/weather/weather_history"
             name: efs-volume
+        {{- end }}
+      {{- if .Values.efs.enabled }}
       volumes:
       - name: efs-volume
         persistentVolumeClaim:
           claimName: efs-claim
+      {{- end }}
       topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: kubernetes.io/hostname
