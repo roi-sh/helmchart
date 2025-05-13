@@ -28,7 +28,7 @@ configmap:
 
 ingress:
   enabled: true
-  host: roihub.click
+  host: weather.roihub.click
   weatherapp:
     annotations:
       alb.ingress.kubernetes.io/scheme: internet-facing
