@@ -1,3 +1,4 @@
+{{- if .Values.efs.enabled }}
 {{- if not .Values.efs.parameters.fileSystemId }}
 {{- fail "efs.parameters.fileSystemId is required. Please provide the EFS filesystem ID." }}
 {{- end }}
@@ -12,3 +13,5 @@ parameters:
   provisioningMode: {{ .Values.efs.parameters.provisioningMode }}
   fileSystemId: {{ .Values.efs.parameters.fileSystemId }}
   directoryPerms: {{ .Values.efs.parameters.directoryPerms | quote }}
+
+{{- end }}

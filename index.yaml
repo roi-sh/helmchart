@@ -3,12 +3,12 @@ entries:
   weatherapp:
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2025-05-13T12:13:33.315154964+03:00"
+    created: "2025-05-13T12:33:40.262633358+03:00"
     description: A Helm chart for WeatherApp
-    digest: ed9091e4c0259d89068cc32d6cf7335d7675241c77964757bb9ab2cb29ca53ed
+    digest: b40f5eefebfe1ac418e2707a0c2b4940addc9797190555fc5b3783e19a13f192
     name: weatherapp
     type: application
     urls:
     - https://roi-sh.github.io/helmchart/weatherapp-1.0.56.tgz
     version: 1.0.56
-generated: "2025-05-13T12:13:33.314600459+03:00"
+generated: "2025-05-13T12:33:40.261722059+03:00"
