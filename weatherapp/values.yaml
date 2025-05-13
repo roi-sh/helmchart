@@ -37,6 +37,7 @@ ingress:
       alb.ingress.kubernetes.io/group.name: roihub-ingress-group
       alb.ingress.kubernetes.io/target-type: ip
       alb.ingress.kubernetes.io/backend-protocol: HTTP
+      alb.ingress.kubernetes.io/manage-backend-security-group-rules: "false"
     spec:
       ingressClassName: alb
       rules:
