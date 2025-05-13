@@ -11,13 +11,14 @@ metadata:
 spec:
   ingressClassName: {{ .Values.ingress.weatherapp.spec.ingressClassName }}
   rules:
-    - http:
+    - host:  {{ .Chart.Name }}.{{ .Values.ingress.host }}
+      http:
         paths:
           - path: {{ .Values.ingress.weatherapp.spec.rules.http.paths.path }}
             pathType: {{ .Values.ingress.weatherapp.spec.rules.http.paths.pathType }}
             backend:
               service:
-                name: weatherapp-service
+                name: {{ .Chart.Name }}-service
                 port:
                   number: 5000
 {{- end }}
