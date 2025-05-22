@@ -32,7 +32,7 @@ ingress:
   weatherapp:
     annotations:
       alb.ingress.kubernetes.io/scheme: internet-facing
-      alb.ingress.kubernetes.io/load-balancer-name: alb-for-roihub
+      alb.ingress.kubernetes.io/load-balancer-name: alb-for-cluster
       alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
       alb.ingress.kubernetes.io/group.name: roihub-ingress-group
       alb.ingress.kubernetes.io/target-type: ip
