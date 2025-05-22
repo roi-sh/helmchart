@@ -32,12 +32,12 @@ ingress:
   weatherapp:
     annotations:
       alb.ingress.kubernetes.io/scheme: internet-facing
-      alb.ingress.kubernetes.io/load-balancer-name: alb-for-cluster
-      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
-      alb.ingress.kubernetes.io/group.name: roihub-ingress-group
       alb.ingress.kubernetes.io/target-type: ip
-      alb.ingress.kubernetes.io/backend-protocol: HTTP
+      alb.ingress.kubernetes.io/group.name: roihub-ingress-group
+      alb.ingress.kubernetes.io/load-balancer-name: alb-for-cluster
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
       alb.ingress.kubernetes.io/manage-backend-security-group-rules: "false"
+      alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:eu-north-1:977099005866:certificate/f7cb19e2-df69-4a75-b679-6f9d9245c1d1"
     spec:
       ingressClassName: alb
       rules:
