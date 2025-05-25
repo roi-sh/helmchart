@@ -13,5 +13,8 @@ parameters:
   provisioningMode: {{ .Values.efs.parameters.provisioningMode }}
   fileSystemId: {{ .Values.efs.parameters.fileSystemId }}
   directoryPerms: {{ .Values.efs.parameters.directoryPerms | quote }}
+  region: {{ .Values.efs.parameters.region }}
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
 
 {{- end }}

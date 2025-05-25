@@ -19,23 +19,33 @@ spec:
     metadata:
       labels:
         app: {{ .Values.weatherapp.name }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "5000"
+        prometheus.io/path: "/metrics"
     spec:
       containers:
       - image: "{{ .Values.weatherapp.image.repository }}:{{ .Values.weatherapp.image.tag }}"
         name: {{ .Values.weatherapp.name }}
         ports:
         - containerPort: {{ .Values.weatherapp.service.port }}
-        envFrom:
-          - configMapRef:
-              name: weatherapp-configmap
-        {{- if .Values.efs.enabled }}
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        {{- if .Values.pvc.enabled }}
         volumeMounts:
-          - mountPath: "/weather/weather_history"
-            name: efs-volume
+        - name: efs-storage
+          mountPath: /app/data
         {{- end }}
-      {{- if .Values.efs.enabled }}
+      {{- if .Values.pvc.enabled }}
       volumes:
-      - name: efs-volume
+      - name: efs-storage
         persistentVolumeClaim:
           claimName: efs-claim
       {{- end }}
