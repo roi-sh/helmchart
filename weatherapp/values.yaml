@@ -56,17 +56,18 @@ ingress:
             pathType: Prefix
 
 pvc:
-  enabled: true
+  enabled: false
   storageClass: "efs-sc"
   accessMode: ReadWriteMany
-  size: 1Gi
+  size: 10Gi
 
 
 efs:
-  enabled: true
+  enabled: false
   name: efs-sc
   provisioner: efs.csi.aws.com
   parameters:
     provisioningMode: efs-ap
-    fileSystemId: "fs-04361214d3366865a"  # Replace with your actual EFS filesystem ID
+    fileSystemId: ""
     directoryPerms: "700"
+    region: ""
