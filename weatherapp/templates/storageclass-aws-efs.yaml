@@ -1,9 +1,13 @@
+{{- if .Values.efs.enabled }}
 {{- if not .Values.efs.parameters.fileSystemId }}
 {{- fail "efs.parameters.fileSystemId is required. Please provide the EFS filesystem ID." }}
 {{- end }}
+{{- if not .Values.efs.parameters.region }}
+{{- fail "efs.parameters.region is required. Please provide the AWS region." }}
+{{- end }}
 
-kind: StorageClass
 apiVersion: storage.k8s.io/v1
+kind: StorageClass
 metadata:
   namespace: {{ .Values.weatherapp.namespace }}
   name: {{ .Values.efs.name }}
@@ -12,3 +16,8 @@ parameters:
   provisioningMode: {{ .Values.efs.parameters.provisioningMode }}
   fileSystemId: {{ .Values.efs.parameters.fileSystemId }}
   directoryPerms: {{ .Values.efs.parameters.directoryPerms | quote }}
+  region: {{ .Values.efs.parameters.region }}
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+
+{{- end }}

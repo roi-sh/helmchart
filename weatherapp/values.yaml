@@ -12,13 +12,13 @@ weatherapp:
     targetPort: 5000
     # nodePort: 32300
 
-  pvc:
-    enabled: true
-    name: efs-claim
-    accessModes: ReadWriteMany
-    resources:
-      requests:
-        storage: 1Gi
+#  pvc:
+#    enabled: true
+#    name: efs-claim
+#    accessModes: ReadWriteMany
+#    resources:
+#      requests:
+#        storage: 1Gi
 
 configmap:
   weatherapp:
@@ -29,12 +29,24 @@ configmap:
 ingress:
   enabled: true
   weatherapp:
+    host: weather.roihub.click
     annotations:
       alb.ingress.kubernetes.io/scheme: internet-facing
       alb.ingress.kubernetes.io/target-type: ip
-      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 5000}]'
-      alb.ingress.kubernetes.io/group.name: my-shared-alb
-      alb.ingress.kubernetes.io/healthcheck-path: /
+      alb.ingress.kubernetes.io/group.name: roihub-ingress-group
+      alb.ingress.kubernetes.io/load-balancer-name: alb-for-cluster
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+      alb.ingress.kubernetes.io/ssl-redirect: '443'
+      alb.ingress.kubernetes.io/manage-backend-security-group-rules: "false"
+      alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:eu-north-1:977099005866:certificate/f7cb19e2-df69-4a75-b679-6f9d9245c1d1"
+      # Add host-based routing condition for ALB
+      alb.ingress.kubernetes.io/conditions.weatherapp: |
+        [{
+          "field": "host-header",
+          "hostHeaderConfig": {
+            "values": ["weather.roihub.click"]
+          }
+        }]
     spec:
       ingressClassName: alb
       rules:
@@ -42,11 +54,20 @@ ingress:
           paths:
             path: /
             pathType: Prefix
-efs:
+
+pvc:
   enabled: true
+  storageClass: "efs-sc"
+  accessMode: ReadWriteMany
+  size: 10Gi
+
+
+efs:
+  enabled: ture
   name: efs-sc
   provisioner: efs.csi.aws.com
   parameters:
     provisioningMode: efs-ap
-    fileSystemId: ""
+    fileSystemId: "fs-0de6609b5e5de5c48"
     directoryPerms: "700"
+    region: "eu-north-1"
