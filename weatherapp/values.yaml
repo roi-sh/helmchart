@@ -62,7 +62,7 @@ efs:
 pvc:
   enabled: true
   name: weatherapp-storage
-  storageClass: ""  # Use default storage class
+  storageClass: "gp2"
   size: "1Gi"
   accessMode: "ReadWriteOnce"
   mountPath: "/app/weather_history"
