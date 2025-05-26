@@ -56,14 +56,14 @@ ingress:
             pathType: Prefix
 
 pvc:
-  enabled: false
+  enabled: true
   storageClass: "efs-sc"
   accessMode: ReadWriteMany
   size: 10Gi
 
 
 efs:
-  enabled: false
+  enabled: ture
   name: efs-sc
   provisioner: efs.csi.aws.com
   parameters:
