@@ -11,7 +11,7 @@ metadata:
 spec:
   ingressClassName: {{ .Values.ingress.weatherapp.spec.ingressClassName }}
   rules:
-    - host: weather.{{ .Values.ingress.host }}
+    - host: {{ .Values.ingress.host }}
       http:
         paths:
           - path: {{ .Values.ingress.weatherapp.spec.rules.http.paths.path }}
