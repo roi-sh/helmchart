@@ -12,13 +12,13 @@ weatherapp:
     targetPort: 5000
     # nodePort: 32300
 
-#  pvc:
-#    enabled: true
-#    name: efs-claim
-#    accessModes: ReadWriteMany
-#    resources:
-#      requests:
-#        storage: 1Gi
+  pvc:
+    enabled: true
+    name: efs-claim
+    accessModes: ReadWriteMany
+    resources:
+      requests:
+        storage: 1Gi
 
 configmap:
   weatherapp:
@@ -55,11 +55,11 @@ ingress:
             path: /
             pathType: Prefix
 
-pvc:
-  enabled: true
-  storageClass: "efs-sc"
-  accessMode: ReadWriteMany
-  size: 10Gi
+#pvc:
+#  enabled: true
+#  storageClass: "efs-sc"
+#  accessMode: ReadWriteMany
+#  size: 10Gi
 
 
 efs:
