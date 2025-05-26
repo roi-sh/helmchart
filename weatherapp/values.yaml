@@ -56,7 +56,7 @@ efs:
   parameters:
     provisioningMode: efs-ap
     fileSystemId: "fs-0de6609b5e5de5c48"
-    directoryPerms: "700"
+    directoryPerms: "0755"
     region: "eu-north-1"
 
 pvc:
@@ -65,4 +65,4 @@ pvc:
   storageClass: "efs-sc"
   size: "1Gi"
   accessMode: "ReadWriteOnce"
-  mountPath: "/app/weather_history"
+  mountPath: "/weather_history"
