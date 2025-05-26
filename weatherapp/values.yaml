@@ -68,6 +68,6 @@ efs:
   provisioner: efs.csi.aws.com
   parameters:
     provisioningMode: efs-ap
-    fileSystemId: ""
+    fileSystemId: "fs-0de6609b5e5de5c48"
     directoryPerms: "700"
-    region: ""
+    region: "eu-north-1"
