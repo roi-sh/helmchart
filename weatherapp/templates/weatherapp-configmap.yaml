@@ -5,3 +5,4 @@ metadata:
   name: {{ .Values.configmap.weatherapp.name }}
 data:
   BG_COLOR: {{ .Values.configmap.weatherapp.data.BG_COLOR | quote }}
+  KEY: {{ .Values.configmap.weatherapp.data.KEY | quote }}

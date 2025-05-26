@@ -38,16 +38,27 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
+        # Environment variables from ConfigMap
+        - name: BG_COLOR
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.configmap.weatherapp.name }}
+              key: BG_COLOR
+        - name: KEY
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.configmap.weatherapp.name }}
+              key: KEY
         {{- if .Values.pvc.enabled }}
         volumeMounts:
-        - name: efs-storage
-          mountPath: /app/data
+        - name: weather-storage
+          mountPath: {{ .Values.pvc.mountPath }}
         {{- end }}
       {{- if .Values.pvc.enabled }}
       volumes:
-      - name: efs-storage
+      - name: weather-storage
         persistentVolumeClaim:
-          claimName: efs-claim
+          claimName: {{ .Values.pvc.name }}
       {{- end }}
       topologySpreadConstraints:
       - maxSkew: 1

@@ -12,19 +12,12 @@ weatherapp:
     targetPort: 5000
     # nodePort: 32300
 
-  pvc:
-    enabled: true
-    name: efs-claim
-    accessModes: ReadWriteMany
-    resources:
-      requests:
-        storage: 1Gi
-
 configmap:
   weatherapp:
     name: weatherapp-configmap
     data:
       BG_COLOR: "#3295a8"
+      KEY: ""
 
 ingress:
   enabled: true
@@ -55,12 +48,6 @@ ingress:
             path: /
             pathType: Prefix
 
-#pvc:
-#  enabled: true
-#  storageClass: "efs-sc"
-#  accessMode: ReadWriteMany
-#  size: 10Gi
-
 
 efs:
   enabled: ture
@@ -71,3 +58,11 @@ efs:
     fileSystemId: "fs-0de6609b5e5de5c48"
     directoryPerms: "700"
     region: "eu-north-1"
+
+pvc:
+  enabled: true
+  name: weatherapp-storage
+  storageClass: ""  # Use default storage class
+  size: "1Gi"
+  accessMode: "ReadWriteOnce"
+  mountPath: "/app/weather_history"
