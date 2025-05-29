@@ -24,6 +24,7 @@ spec:
         prometheus.io/port: "5000"
         prometheus.io/path: "/metrics"
     spec:
+      serviceAccountName: weather-app-sa
       containers:
       - image: "{{ .Values.weatherapp.image.repository }}:{{ .Values.weatherapp.image.tag }}"
         name: {{ .Values.weatherapp.name }}

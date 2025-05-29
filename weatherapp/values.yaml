@@ -17,7 +17,8 @@ configmap:
     name: weatherapp-configmap
     data:
       BG_COLOR: "#3295a8"
-      KEY: ""
+      SECRET_NAME: "weather-app/api-key"
+      AWS_REGION: "eu-north-1"
 
 ingress:
   enabled: true
